@@ -1,0 +1,59 @@
+{
+    "name": "tfc/core-api",
+    "description": "Core API for RTW platform",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Sergio Paulino",
+            "email": "sergio@rewardtheworld.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/",
+            "Tests\\": "Tests/"
+        }
+    },
+    "require": {
+        "php": "^7.3.33",
+        "bryanjhv/slim-session": "^4.1.2",
+        "tfc/phpvo": "^0.1",
+        "monolog/monolog": "^1.21",
+        "ramsey/uuid": "^3.5",
+        "slim/csrf": "^1.2.1",
+        "slim/slim": "^4.9.0",
+        "vlucas/phpdotenv": "2.6.x-dev",
+        "palanik/corsslim": "dev-slim3",
+        "faapz/pdo": "^v1.11",
+        "slim/http-cache": "dev-master",
+        "guzzlehttp/guzzle": "^6.3@dev",
+        "phpspec/prophecy": "^1.7",
+        "phpdocumentor/reflection-common": "^2.2.0",
+        "phpdocumentor/type-resolver": "^1.6.2",
+        "phpunit/phpunit": "^9.6",
+        "phpunit/php-code-coverage": "^9.2.13",
+        "tuupola/slim-jwt-auth": "^3.7.0",
+        "phpforce/soap-client": "dev-master",
+        "aws/aws-sdk-php": "^3.0@dev",
+        "paragonie/halite": "^4",
+        "psr/http-server-middleware": "^1.0",
+        "paragonie/sodium_compat": "^1.5",
+        "curl/curl": "^2.5.0",
+        "tfc/tfcapi": "^1.0",
+        "tfc/tfclog": "^2.0.11",
+        "web-token/jwt-signature": "v2.2.x-dev",
+        "bjsmasth/php-salesforce-rest-api": "dev-master",
+        "guzzlehttp/psr7": "^1.5@dev",
+        "stripe/stripe-php": "^6.38",
+        "phar-io/manifest": "^2.0.3",
+        "web-token/jwt-framework": "^v2.2.x-dev",
+        "firebase/php-jwt": "^3.0|^4.0|^5.0",
+        "tecnickcom/tc-lib-barcode": "^1.18"
+    },
+    "require-dev": {
+        "brick/math":"^0.9.3"
+    }
+}

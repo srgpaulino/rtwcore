@@ -1,0 +1,2564 @@
+openapi: 3.0.0
+info:
+  title: RTW API
+  description: 'API that allows clients to create, list, redeem and invalidate vouchers and passes on RTW Digital Limited .<br /><br />-----------------<br />To build your JWT Signature<br />-----------------<br /><br /><b><u>Header (Algorythm & Token Type):</u></b><br /><br/>{<br />"alg": "HS256",<br />"typ": "JWT"<br/>}<br /><br /><b><u>Payload (Data):</u></b><br /><br />{<br />"sub": "1234567890",<br/>"user": "<b><i>{USER_NAME}</i></b>",<br />"iat": 1428819941,<br />"exp": 1744352741<br />}<br /><br /><b><u>Verify Signature:</u></b><br />HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),{SECRET})<br /><br /><b><u>PHP example for generating jwt:</u></b><br /><br />function generate_jwt($headers, $payload, $secret = &#39;secret&#39;) {<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;$headers_encoded = base64url_encode(json_encode($headers));<br />&nbsp;&nbsp;&nbsp;&nbsp;$payload_encoded = base64url_encode(json_encode($payload));<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;$signature = hash_hmac(&#39;SHA256&#39;, "$headers_encoded.$payload_encoded", $secret, true);<br />&nbsp;&nbsp;&nbsp;&nbsp;$signature_encoded = $signature;<br /><br />  &nbsp;&nbsp;&nbsp;&nbsp;$jwt = "$headers_encoded.$payload_encoded.$signature_encoded";<br /><br />  &nbsp;&nbsp;&nbsp;&nbsp;return $jwt;<br />}<br />'
+  contact: {}
+  version: '2.5'
+servers:
+- url: https://stgapi.rewardtheworld.com/v2
+  variables: {}
+- url: https://api.rewardtheworld.com/v2
+  variables: {}
+paths:
+  /redeem:
+    post:
+      tags:
+      - Redeem
+      summary: 'Redeem an external item'
+      description: 'Redeem a product'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExternalRedeemRequest'
+            example:
+              shop: 6
+              user: 15
+              apiKey: "b80b78bg9uibn7890b"
+              iat: 156785657
+              userData:
+                email: john.doe@rewardtheworld.com
+                session: 45756
+              redemption:
+                Content ID: 567SF57857
+                Content Name: Product XYZ
+                Feed Provider: Arrivia
+                Category ID: travel
+                Content Type: Experiences
+                Provider User ID: B789G789HGH86H
+                Currency: GBP
+                SRP Price: 345.74
+                Points Cost: 34574
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalRedeemResponse'
+        404:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: Product does not exist.
+        410:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 410
+                message: Product has already been redeemed. 
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Critical Error.
+        501:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Provider Error.
+      deprecated: false
+
+
+  /redeem/game/{pid}:
+    post:
+      tags:
+      - Redeem
+      summary: 'Redeem a videogame'
+      description: 'Redeem a videogame'
+      parameters:
+      - name: "pid"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemRequest'
+            example:
+              shop_id: 6
+              end_user: "A345647"
+              country: "GB"
+              product_id: "1234567"
+              client_order_id: "YUJHH76847845245"
+              value: 66
+              discount: 0
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedeemResponse'
+        404:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: Product does not exist.
+        410:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 410
+                message: Product has already been redeemed. 
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Critical Error.
+        501:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Provider Error.
+      deprecated: false
+  /redeem/software/{pid}:
+    post:
+      tags:
+      - Redeem
+      summary: 'Redeem software'
+      description: 'Redeem Software'
+      parameters:
+      - name: "pid"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemRequest'
+            example:
+              shop_id: 6
+              end_user: "A345647"
+              country: "GB"
+              product_id: "1234567"
+              client_order_id: "YUJHH76847845245"
+              value: 66
+              discount: 0
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedeemResponse'
+        404:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: Product does not exist.
+        410:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 410
+                message: Product has already been redeemed. 
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Critical Error.
+        501:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Provider Error.
+      deprecated: false
+  /redeem/emagazine/{pid}:
+    post:
+      tags:
+      - Redeem
+      summary: 'Redeem emagazine'
+      description: 'Redeem emagazine'
+      parameters:
+      - name: "pid"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemRequest'
+            example:
+              shop_id: 6
+              end_user: "A345647"
+              country: "GB"
+              product_id: "1234567"
+              client_order_id: "YUJHH76847845245"
+              value: 66
+              discount: 0
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmagRedeemResponse'
+        404:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: Product does not exist.
+        410:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 410
+                message: Product has already been redeemed. 
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Critical Error.
+        501:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 501
+                message: Provider Error.
+      deprecated: false
+  /sso:
+    get:
+      tags:
+      - SSO
+      summary: 'SSO EndUser'
+      description: 'SSOs an end-user.'
+      parameters:
+      - name: 'ssorequest'
+        in: query
+        description: The Encrypted SAML Response for authentication
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                message: Authentication failed. See JSON body for details.
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: No results found. See JSON body for details.
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 500
+                message: Unexpected error in API call. See JSON body for details.
+      deprecated: false
+    post:
+      tags:
+        - SSO
+      summary: SSO EndUser
+      description: SSOs an end-user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: Authentication failed. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: No results found. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error in API call. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+
+  /identity:
+    post:
+      tags:
+      - SSO
+      summary: 'Identity Provider'
+      description: 'Provides Identity information for a user.'
+      parameters:
+      - name: 'identityrequest'
+        in: query
+        description: The Identity Request, formated into the Bearer token
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdentityRequest"
+      responses:
+        200:
+          description: End-user Identity data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdentityResponse"
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                message: Authentication failed. See JSON body for details.
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: No results found. See JSON body for details.
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 500
+                message: Unexpected error in API call. See JSON body for details.
+      deprecated: false
+    
+  /wallet:
+    get:
+      tags:
+      - Transaction
+      summary: 'Get points wallet'
+      description: "Get user's point wallet"
+      parameters:
+      - name: 'walletrequest'
+        in: query
+        description: Request for user's wallet
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WalletRequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletResponse"
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                message: Authentication failed. See JSON body for details.
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: No results found. See JSON body for details.
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 500
+                message: Unexpected error in API call. See JSON body for details.
+      deprecated: false
+
+  /pointscheck:
+    get:
+      tags:
+      - Transaction
+      summary: 'SSO EndUser'
+      description: 'SSOs an end-user.'
+      parameters:
+      - name: 'ssorequest'
+        in: query
+        description: The Encrypted SAML Response for authentication
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                message: Authentication failed. See JSON body for details.
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: No results found. See JSON body for details.
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 500
+                message: Unexpected error in API call. See JSON body for details.
+      deprecated: false
+    post:
+      tags:
+        - Transaction
+      summary: SSO EndUser
+      description: SSOs an end-user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: Authentication failed. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: No results found. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error in API call. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+
+  /transact:
+    get:
+      tags:
+      - Transaction
+      summary: 'SSO EndUser'
+      description: 'SSOs an end-user.'
+      parameters:
+      - name: 'ssorequest'
+        in: query
+        description: The Encrypted SAML Response for authentication
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                message: Authentication failed. See JSON body for details.
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: No results found. See JSON body for details.
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 500
+                message: Unexpected error in API call. See JSON body for details.
+      deprecated: false
+    post:
+      tags:
+        - Transaction
+      summary: SSO EndUser
+      description: SSOs an end-user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: Authentication failed. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: No results found. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error in API call. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+
+  /refund:
+    get:
+      tags:
+      - Transaction
+      summary: 'SSO EndUser'
+      description: 'SSOs an end-user.'
+      parameters:
+      - name: 'ssorequest'
+        in: query
+        description: The Encrypted SAML Response for authentication
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                message: Authentication failed. See JSON body for details.
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: No results found. See JSON body for details.
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 500
+                message: Unexpected error in API call. See JSON body for details.
+      deprecated: false
+    post:
+      tags:
+        - Transaction
+      summary: SSO EndUser
+      description: SSOs an end-user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SSORequest"
+      responses:
+        200:
+          description: End-user data for the logged user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndUser"
+        401:
+          description: Authentication failed. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: No results found. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error in API call. See JSON body for details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+
+  /pass:
+    post:
+      tags:
+      - Pass
+      summary: Create Passes. Results are returned as an array of passes.
+      description: ''
+      operationId: CreatePass
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePassRequest'
+            example:
+              shop_id: 6
+              prefix: TEST
+              account_id: A-000000
+              contact: email@email.com
+              num_passes: 20
+              content_type_id: 1
+              end_user: ""
+              start_date: "2020-02-10"
+              exp_date: "2021-02-10"
+              duration: 12
+              extra:
+                fee: 0.20
+                discount: 10
+                app_order: 1
+        required: true
+        x-send-file-in-body: false
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassResponse'
+              example:
+                account_id: 6
+                code: TEST5896189247
+                content_type_id: 1
+                start_time: "2020-02-10"
+                exp_time: "2021-02-10"
+                id: "b9g87b78-b68g97gh9-bn68g-78gb-b76g8b"
+      deprecated: false
+    
+  /pass/{code}:
+    put:
+      tags:
+      - Pass
+      summary: Redeem Pass
+      description: ''
+      operationId: RedeemPass
+      parameters:
+      - name: "code"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemPassRequest'
+            example:
+              code: TEST4501526409503
+              end_user: a061a000003WaUhAAK
+              shop_id: 6
+              redeem: 0
+        required: true
+        x-send-file-in-body: false
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PassResponse'
+              example:
+                account_id: 6
+                code: TEST5896189247
+                content_type_id: 1
+                start_time: "2020-02-10"
+                exp_time: "2021-02-10"
+                id: "b9g87b78-b68g97gh9-bn68g-78gb-b76g8b"
+      deprecated: false
+    delete:
+      tags:
+      - Pass
+      summary: Invalidate Pass
+      description: ''
+      operationId: InvalidatePass
+      parameters:
+      - name: "code"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: object
+      deprecated: false
+  /voucher:
+    post:
+      tags:
+      - Voucher
+      summary: Create Voucher
+      description: ''
+      operationId: CreateVoucher
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVoucherRequest'
+            example:
+              shop_id: 6
+              account_id: A-002168
+              prefix: TEST
+              num_vouchers: 20
+              points: 250
+              currency: usd
+              value: 10
+              content_type_id: 0
+              content_id: 0
+              voucher_type: 0
+              user_id: 44
+              start_time: "2020-02-10 00:00:00"
+              points_start_time: "2020-02-10 00:00:00"
+              exp_time: "2021-02-10 00:00:00"
+              points_exp_time: "2021-02-10 00:00:00"
+              extra:
+                fee: 0.20
+                discount: 10
+                app_order: 1
+        required: true
+        x-send-file-in-body: false
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoucherResponse'
+              example:
+                shop_id: 6
+                code: TEST5896189247
+                points: 250
+                start_time: "2020-02-10 00:00:00"
+                points_start_time: "2020-02-10 00:00:00"
+                exp_time: "2021-02-10 00:00:00"
+                points_exp_time: "2021-02-10 00:00:00"
+        401:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                message: Not allowed to use this voucher function.
+        404:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 404
+                message: Shop does not exist.
+        409:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 409
+                message: Incorrect shop selected. 
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR500
+                message: Critical Error.
+      deprecated: false
+    
+  /voucher/{code}:
+    get:
+      tags:
+      - Voucher
+      summary: Validate Voucher
+      description: 'add bearer toke containing (example): {"user":"rtw", "iat": 1428819941, "exp": 1744352741}'
+      operationId: ValidateVoucher
+      parameters:
+      - name: "code"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateVoucherResponse'
+              example:
+                message: "Voucher TEST123456789 is valid."
+        401:
+          description: "Invalid token signature"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR401
+                message: Signature verification failed.
+        404:
+          description: "voucher does not exist"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherDoesNotExistException"
+              example:
+                error: ERR404
+                message: "Voucher does not exist"
+        410:
+          description: "Voucher is no longer valid"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherNotValidException"
+              example:
+                error: ERR410
+                message: "Voucher has been used"
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR500
+                message: Critical Error.
+         
+      deprecated: false
+    put:
+      tags:
+      - Voucher
+      summary: Redeem Voucher
+      description: ''
+      operationId: RedeemVoucher
+      parameters:
+      - name: "code"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemVoucherRequest'
+            example:
+              code: TEST4501526409503
+              shop_id: 6
+              end_user: a061a000003WaUhAAK
+        required: true
+        x-send-file-in-body: false
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: object
+        401:
+          description: "Invalid token signature"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR401
+                message: Signature verification failed.
+        404:
+          description: "voucher does not exist"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherDoesNotExistException"
+              example:
+                error: ERR404
+                message: "Voucher does not exist"
+        410:
+          description: "Voucher is no longer valid"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherNotValidException"
+              example:
+                error: ERR410
+                message: "Voucher has been used"
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR500
+                message: Critical Error.
+      deprecated: false
+    delete:
+      tags:
+      - Voucher
+      summary: Invalidate Voucher
+      description: 'data to be sent as bearer token jwt: {
+  "code": "TEST123456789",
+  "jwt": {
+    "user": "rtw",
+    "iat": 1428819941,
+    "exp": 1744352741
+  }
+}'
+      operationId: InvalidateVoucher
+      parameters:
+      - name: "code"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidateVoucherResponse'
+        401:
+          description: "Invalid token signature"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR401
+                message: Signature verification failed.
+        404:
+          description: "voucher does not exist"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherDoesNotExistException"
+              example:
+                error: ERR404
+                message: "Voucher does not exist"
+        410:
+          description: "Voucher is no longer valid"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherNotValidException"
+              example:
+                error: ERR410
+                message: "Voucher has been used"
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR500
+                message: Critical Error.
+      deprecated: false
+  /reactivate/{code}:
+    put:
+      tags:
+      - Voucher
+      summary: Reactivate Voucher
+      description: 'data to be sent as bearer token jwt'
+      operationId: ReactivateVoucher
+      parameters:
+      - name: "code"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReactivateVoucherRequest'
+        required: true
+        x-send-file-in-body: false
+      responses:
+        201:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactivateVoucherResponse'
+        401:
+          description: "Invalid token signature"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR401
+                message: Signature verification failed.
+        404:
+          description: "voucher does not exist"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherDoesNotExistException"
+              example:
+                error: ERR404
+                message: "Voucher does not exist"
+        410:
+          description: "Voucher is no longer valid"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherNotValidException"
+              example:
+                error: ERR410
+                message: "Voucher has been used"
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR500
+                message: Critical Error.
+      deprecated: false
+  /dfvoucher/{code}:
+    put:
+      tags:
+      - Voucher
+      summary: Redeem Duty Free Voucher
+      description: 'data to be sent as bearer token jwt. options for action: redeem or validate'
+      operationId: RedeemDFVoucher
+      parameters:
+      - name: "code"
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemDFVoucherRequest'
+            example:
+              voucherId: TEST4501526409503
+              extra:
+                IATA: NCE
+                value: 5.00
+                currency: EUR
+                validity: "2023-12-31 00:00:00"
+              action: redeem
+              jwt:
+                user: rtw
+                iat: 1428819941
+                exp: 1744352741
+        required: true
+        x-send-file-in-body: false
+      responses:
+        200:
+          description: "Voucher validated as being able to be redeemed"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RedeemDFVoucherResponse"
+              example:
+                status: OK
+                message: "Voucher with id TEST1234567890 can be redeemed."
+                data:
+                  IATA: NCE
+                  value: 5.00
+                  currency: EUR 
+                  validity: "2023-12-31 00:00:00"
+        201:
+          description: "Voucher redeemed successfully"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RedeemDFVoucherResponse"
+        401:
+          description: "Invalid token signature"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR401
+                message: Signature verification failed.
+        404:
+          description: "voucher does not exist"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherDoesNotExistException"
+              example:
+                error: ERR404
+                message: "Voucher does not exist"
+        409:
+          description: "voucher not valid for this country"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: ERR409
+                message: "This voucher is not valid for this country. / This voucher is not valid for this currency."
+        410:
+          description: "voucher expired"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: ERR409
+                message: "Voucher has expired. / Voucher has been used"
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: ERR500
+                message: Critical Error.
+      deprecated: false
+  /version:
+    get:
+      summary: Version
+      description: ''
+      operationId: Version
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: application/json
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: object
+        404:
+          description: "voucher does not exist"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherDoesNotExistException"
+              example:
+                error: ERR404
+                message: "Voucher does not exist"
+        410:
+          description: "Voucher is no longer valid"
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoucherNotValidException"
+              example:
+                error: ERR410
+                message: "Voucher has been used"
+        500:
+          description: ""
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 500
+                message: Critical Error.        
+      deprecated: false
+  /test:
+    get:
+      summary: Test
+      description: ''
+      operationId: Test
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: application/json
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: object
+      deprecated: false
+components:
+  schemas:
+    CreateVoucherRequest:
+      title: CreateVoucherRequest
+      required:
+      - shop_id
+      - account_id
+      - prefix
+      - num_vouchers
+      - points
+      - content_type_id
+      - content_id
+      - voucher_type
+      - user_id
+      - start_time
+      - points_start_time
+      - exp_time
+      - points_exp_time
+      - extra
+      type: object
+      properties:
+        shop_id:
+          type: integer
+          format: int32
+        account_id:
+          type: string
+        prefix:
+          type: string
+        num_vouchers:
+          type: integer
+          format: int32
+        points:
+          type: integer
+          format: int32
+        currency:
+          type: string
+        value:
+          type: integer
+          format: int32
+        content_type_id:
+          type: integer
+          format: int32
+        content_id:
+          type: integer
+          format: int32
+        voucher_type:
+          type: integer
+          format: int32
+        user_id:
+          type: integer
+          format: int32
+        start_time:
+          type: string
+        points_start_time:
+          type: string
+        exp_time:
+          type: string
+        points_exp_time:
+          type: string
+        extra:
+          type: object
+      example:
+        shop_id: 6
+        account_id: A-000000
+        prefix: TEST
+        num_vouchers: 20
+        points: 250
+        currency: usd
+        value: 10
+        content_type_id: 0
+        content_id: 0
+        voucher_type: 0
+        user_id: 99
+        start_time: "2020-02-10 00:00:00"
+        points_start_time: "2020-02-10 00:00:00"
+        exp_time: "2021-02-10 00:00:00"
+        points_exp_time: "2021-02-10 00:00:00"
+        extra: {} 
+    VoucherResponse:
+      title: VoucherResponse
+      required:
+      - shop_id
+      - points
+      - code
+      - start_time
+      - points_start_time
+      - exp_time
+      - points_exp_time
+      type: object
+      properties:
+        shop_id:
+          type: integer
+          format: int32
+        points:
+          type: integer
+          format: int32
+        code:
+          type: string
+        start_time:
+          type: string
+        points_start_time:
+          type: string
+        exp_time:
+          type: string
+        points_exp_time:
+          type: string
+      example:
+        shop_id: 6
+        points: 250
+        code: TEST56785687678
+        start_time: "2020-02-10 00:00:00"
+        points_start_time: "2020-02-10 00:00:00"
+        exp_time: "2021-02-10 00:00:00"
+        points_exp_time: "2021-02-10 00:00:00"
+    RedeemVoucherRequest:
+      title: RedeemVoucherRequest
+      required:
+      - code
+      - shop_id
+      - end_user
+      - redeem
+      type: object
+      properties:
+        code:
+          type: string
+        shop_id:
+          type: integer
+          format: int32
+        end_user:
+          type: string
+        redeem:
+          type: integer
+          format: int32
+          description: "1 for true, 0 for false"
+      example:
+        code: TEST4501526409503
+        shop_id: 6
+        end_user: a061a000003WaUhAAK
+        redeem: 1
+    ValidateVoucherRequest:
+      title: RedeemVoucherRequest
+      required:
+      - user
+      - iat
+      - exp
+      type: object
+      properties:
+        user:
+          type: string
+        iat:
+          type: integer
+          format: int32
+        exp:
+          type: integer
+          format: int32
+      example:
+        user: rtw
+        iat: 1428819941
+        exp: 1744352741
+    ValidateVoucherResponse:
+      title: ValidateVoucherResponse
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: "Voucher TEST123456789 is valid."
+    VoucherDoesNotExistException:
+      title: VoucherDoesNotExistException
+      required:
+        - error
+        - message
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      example:
+        error: ERR404
+        message: "Voucher does not exist."
+    VoucherNotValidException:
+      title: VoucherNotValidException
+      required:
+        - error
+        - message
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      example:
+        error: ERR404
+        message: "Voucher has been used."
+    InvalidateVoucherRequest:
+      title: InvalidateVoucherRequest
+      required:
+        - code
+        - jwt
+      type: object
+      properties:
+        code:
+          type: string
+        jwt:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: string
+              iat:
+                type: integer
+                format: int32
+              exp:
+                type: integer
+                format: int32
+      example:
+        code: TEST1234567890
+        jwt: 
+          user: rtw
+          iat: 1428819941
+          exp: 1744352741
+    InvalidateVoucherResponse:
+      title: InvalidateVoucherResponse
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      example:
+        status: ok
+        message: voucher TEST1234567890 has been invalidated.
+    ReactivateVoucherRequest:
+      title: ReactivateVoucherRequest
+      required:
+        - code
+        - jwt
+      type: object
+      properties:
+        code:
+          type: string
+        jwt:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: string
+              iat:
+                type: integer
+                format: int32
+              exp:
+                type: integer
+                format: int32
+      example:
+        code: TEST1234567890
+        jwt: 
+          user: rtw
+          iat: 1428819941
+          exp: 1744352741
+    ReactivateVoucherResponse:
+      title: ReactivateVoucherResponse
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      example:
+        status: ok
+        message: voucher TEST1234567890 has been reactivated.
+    RedeemDFVoucherRequest:
+      title: RedeemDFVoucherRequest
+      required:
+        - voucherId
+        - extra
+        - action
+        - jwt
+      type: object
+      properties:
+        voucherId:
+          type: string
+        extra:
+          type: array
+          items:
+            type: object
+            properties:
+              IATA:
+                type: string
+              value:
+                type: number
+                format: double
+              currency:
+                type: string
+              validity:
+                type: string
+                format: date-time
+        action: 
+          type: string
+        jwt:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: string
+              iat:
+                type: integer
+                format: int32
+              exp:
+                type: integer
+                format: int32
+      example:
+        voucherId: TEST1234567890
+        extra:
+          IATA: NCE
+          value: 5.00
+          currency: EUR 
+          validity: "2023-12-31 00:00:00"
+        action: redeem
+        jwt: 
+          user: rtw
+          iat: 1428819941
+          exp: 1744352741
+    RedeemDFVoucherResponse:
+      title: RedeemDFVoucherResponse
+      required:
+        - message
+      type: object
+      properties:
+        Status:
+          type: string
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              IATA:
+                type: string
+              value:
+                type: number
+                format: double
+              currency:
+                type: string
+              validity:
+                type: string
+                format: date-time
+      example:
+        status: OK
+        message: "Voucher with id TEST1234567890 has been redeemed."
+        data:
+          IATA: NCE
+          value: 5.00
+          currency: EUR 
+          validity: "2023-12-31 00:00:00"
+    CreatePassRequest:
+      title: CreatePassRequest
+      required:
+      - shop_id
+      - prefix
+      - account_id
+      - contact
+      - num_passes
+      - content_type_id
+      - end_user
+      - start_date
+      - exp_date
+      - duration
+      type: object
+      properties:
+        shop_id:
+          type: integer
+          format: int32
+        prefix:
+          type: string
+        account_id:
+          type: string
+        contact:
+          type: string
+        num_passes:
+          type: integer
+          format: int32
+        content_type_id:
+          type: integer
+          format: int32
+        end_user:
+          type: string
+        start_date:
+          type: string
+        exp_date:
+          type: string
+        duration:
+          type: integer
+          format: int32
+      example:
+        shop_id: 6
+        prefix: TEST
+        account_id: A-000000
+        contact: "email@email.com"
+        num_passes: 20
+        content_type_id: 1
+        end_user: ""
+        start_date: "2020-02-10"
+        exp_time: "2021-02-10"
+        duration: 12
+    PassResponse:
+      title: PassResponse
+      required:
+      - account_id
+      - code
+      - content_type_id
+      - user_id
+      - start_time
+      - exp_time
+      - duration
+      - id
+      type: object
+      properties:
+        account_id:
+          type: string
+        code:
+          type: string
+        content_type_id:
+          type: integer
+          format: int32
+        user_id:
+          type: string
+        start_time:
+          type: string
+        exp_time:
+          type: string
+        duration:
+          type: integer
+          format: int32
+        id:
+          type: string
+    RedeemPassRequest:
+      title: RedeemPassRequest
+      required:
+      - code
+      - end_user
+      - shop_id
+      - redeem
+      type: object
+      properties:
+        code:
+          type: string
+        end_user:
+          type: string
+        shop_id:
+          type: integer
+          format: int32
+        redeem:
+          type: integer
+          format: int32
+      example:
+        code: TEST4501526409503
+        shop_id: 6
+        end_user: a061a000003WaUhAAK
+        redeem: 1
+    RedeemRequest:
+      title: RedeemRequest
+      required:
+      - shop_id
+      - end_user
+      - country
+      - product_id
+      - client_order_id
+      - value
+      - discount 
+      type: object
+      properties:
+        product_id:
+          type: string
+        client_order_id:
+          type: string
+        end_user:
+          type: string
+        shop_id:
+          type: integer
+          format: int32
+        country:
+          type: string
+        value:
+          type: number
+          format: double
+          minimum: 0
+        discount:
+          type: number
+          format: double
+          minimum: 0
+      example:
+        product_id: 478756
+        end_user: GHJG3287HOUIHNLJK328787989
+        shop_id: 6
+    RedeemResponse:
+      title: RedeemResponse
+      required:
+      - product_id
+      - end_user
+      - order_id
+      - value 
+      - download
+      type: object
+      properties:
+        product_id:
+          type: string
+        end_user:
+          type: string
+        order_id:
+          type: string
+        value:
+          type: integer
+          format: int32
+        download:
+          type: object
+          properties:
+            instructions:
+              type: string
+            url:
+              type: string
+              format: uri
+      example:
+        product_id: 478756
+        end_user: GHJG3287HOUIHNLJK328787989
+        order_id: Y79YH98987987
+        value: 150
+        download:
+          instructions: Lorem ipsum dolor sit amet
+          url: http://www.testwebsite.com
+    EmagRedeemResponse:
+      title: RedeemResponse
+      required:
+      - product_id
+      - end_user
+      - order_id
+      - value 
+      - download
+      type: object
+      properties:
+        product_id:
+          type: string
+        end_user:
+          type: string
+        order_id:
+          type: string
+        value:
+          type: integer
+          format: int32
+        download:
+          type: object
+          properties:
+            access_token:
+              type: string
+            zinio_user_id:
+              type: string
+            partner_domain:
+              type: string
+            issue_id:
+              type: string
+      example:
+        product_id: 478756
+        end_user: GHJG3287HOUIHNLJK328787989
+        order_id: Y79YH98987987
+        value: 150
+        download:
+          access_token: c50ad656-6401-4ecd-a402-8a4acbdd52fc
+          zinio_user_id: 4732341123
+          partner_domain: 
+          issue_id: 147GYUJR57
+    SSORequest:
+      title: SSORequest
+      required:
+      - user
+      - shop
+      - apiuser
+      - apikey
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            username:
+              type: string
+              minLength: 3
+              maxLength: 20
+            email:
+              type: string
+              format: email
+            name:
+              type: string
+            last_name:
+              type: string
+            date_of_birth:
+              type: string
+              format: date
+            country:
+              type: string
+              minLength: 2
+              maxLength: 2
+            client_id:
+              type: integer
+              format: int32
+            credit:
+              type: number
+              format: double
+              minimum: 0
+            notify_user:
+              type: boolean
+            vouchers:
+              type: array
+              items:
+                type: string
+              minItems: 0
+            external_user_id:
+              type: string
+        shop:
+          type: integer
+          format: int32
+        apiUser:
+          type: string
+        apikey:
+          type: string
+      example:
+        user:
+          username: jdoe123
+          email: fake@email.com
+          name: John
+          last_name: Doe
+          date_of_birth: 1985-01-01
+          country: GB
+          client_id: 6
+          credit: 123
+          notify_user: false
+          vouchers: []
+          external_user_id: T6G87Y9H9Y8H80990
+          additional_1: ''
+          additional_2: ''
+        shop: 6
+        apiuser: userId
+        apikey: Y78J790HN97788N789N8780N7899
+    EndUser:
+      title: EndUser
+      required:
+      - userId
+      - clientUserId
+      - loginName
+      - name
+      - lastName
+      - points
+      - geoId
+      - language
+      - email
+      - shop
+      - shopRef
+      - accountId
+      - loginurl
+      type: object
+      properties:
+        userId:
+          type: string
+        clientUserId:
+          type: string
+        loginName:
+          type: string
+        name:
+          type: string
+        lastName:
+          type: string
+        points:
+          type: integer
+          format: int32
+        geoId:
+          type: string
+        language:
+          type: string
+        email:
+          type: string
+          format: email
+        shop:
+          type: integer
+          format: int32
+        shopRef:
+          type: string
+        accountId:
+          type: string
+        loginurl:
+          type: string
+          format: uri
+      example:
+        userId: a687897897H9N79N7999N97n9n779878
+        clientUserId: n78h809nb687h098hn687h9
+        loginName: jdoe123
+        name: John
+        lastName: Doe
+        points: 123
+        geoId: GB
+        language: en
+        email: fake@email.com
+        shop: 6
+        shopRef: RTW
+        accountId: A-000000
+        loginurl: https://www.rewardtheworld.com/sso/57867890678987g8yb8b79n87n
+    IdentityRequest:
+      title: IdentityRequest
+      required:
+      - shop
+      - user
+      - currency
+      - apiKey
+      - iat
+      - userData
+      type: object
+      properties:
+        shop:
+          type: integer
+          description: Id of the shop your user belongs to
+          format: int32
+        user:
+          type: integer
+          description: ID of your API user
+          format: int32
+        currency:
+          type: string
+          description: Currency code
+        apiKey:
+          type: string
+          description: your API user's secret key
+        iat:
+          type: number
+          format: timestamp
+          description: timestamp of when the request was sent
+        userData:
+          type: object
+          description: User data required to validate user
+          properties:
+            email:
+              type: string
+              format: email
+              description: email of the user you want to get the Idcentity for
+            session:
+              type: integer
+              description: user's session
+              format: int32
+      example:
+        shop: 6
+        user: 34
+        currency: USD
+        apiKey: t67gb8yvb6789g78hb678
+        iat: 1516239022
+        userData:
+          email: fake@email.com
+          session: 56785
+    IdentityResponse:
+      title: IdentityResponse
+      type: object
+      properties:
+        data:
+          type: object
+          description: Identity data
+          properties:
+            RTWUserId:
+              type: string
+              description: RTW internal user id
+            loginName:
+              type: string
+              description: User's login name
+            name:
+              type: string
+              description: User's first name
+            lastName:
+              type: string
+              description: User's surname
+            coinscount:
+              type: integer
+              description: Number of points in user's account
+              format: int32
+            geoId:
+              type: string
+              description: User's country geocode
+              format: geocode
+              minLength: 2
+              maxLength: 2
+            language:
+              type: string
+              description: User's preferred language
+              format: langcode
+              minLength: 2
+              maxLength: 2
+            email:
+              type: string
+              description: User's email
+              format: email
+            shop:
+              type: integer
+              description: Id of the shop your user belongs to
+              format: int32
+        base_currency:
+          type: string
+          description: currency code of the base currency of the shop
+          properties:
+            conversion_rate:
+              description: conversion rate data
+              properties:
+                points_per_base:
+                  type: integer
+                  description: number of points per base currency
+                  format: int32
+                X_point_value:
+                  type: number
+                  description: value of 1 point for currency X (replace X with currency sent on request)
+      example:
+        data:
+          RTWUserId: b69b6b8yohuilhuihuohyuioghui8
+          loginName: testuser
+          name: John
+          lastName: Doe
+          coinscount: 4567
+          geoId: GB
+          language: en
+          email: john.doe@rewardtheworld.com
+          shop: 6
+        base_currency: EUR
+        conversion_rate:
+          points_per_base: 100
+          X_point_value: 0.0092
+    WalletRequest:
+      title: WalletRequest
+      required:
+      - shop
+      - user
+      - apiKey
+      - iat
+      - userData
+      type: object
+      properties:
+        shop:
+          type: integer
+          description: Id of the shop your user belongs to
+          format: int32
+        user:
+          type: integer
+          description: ID of your API user
+          format: int32
+        apiKey:
+          type: string
+          description: your API user's secret key
+        iat:
+          type: number
+          format: timestamp
+          description: timestamp of when the request was sent
+        userData:
+          type: object
+          description: User data required to validate user
+          properties:
+            email:
+              type: string
+              format: email
+              description: email of the user you want to get the Idcentity for
+            session:
+              type: integer
+              description: user's session
+              format: int32
+      example:
+        shop: 6
+        user: 34
+        apiKey: t67gb8yvb6789g78hb678
+        iat: 1516239022
+        userData:
+          email: fake@email.com
+          session: 56785
+    WalletResponse:
+      title: WalletResponse
+      type: object
+      properties:
+        data:
+          type: object
+          description: Identity data
+          properties:
+            RTWUserId:
+              type: string
+              description: RTW internal user id
+            loginName:
+              type: string
+              description: User's login name
+            coinscount:
+              type: integer
+              description: Number of points in user's account
+              format: int32
+            shop:
+              type: integer
+              description: Id of the shop your user belongs to
+              format: int32
+      example:
+        data:
+          RTWUserId: b69b6b8yohuilhuihuohyuioghui8
+          loginName: testuser
+          coinscount: 4567
+          shop: 6
+          
+    ExternalRedeemRequest:
+      title: ExternalRedeemRequest
+      required:
+      - userId
+      - email
+      - session
+      - Content Id
+      - Content Name
+      - Feed Provider
+      - Category ID
+      - Provider User ID
+      - Provider Shop Url
+      - Currency
+      - SRP Price
+      - Points Cost
+      - Provider Order number
+      - apiKey
+      - iat
+      - shop
+      - user
+      type: object
+      properties:
+        shop:
+          type: integer
+          description: Id of the shop your user belongs to
+          format: int32
+        user:
+          type: integer
+          description: ID of your API user
+          format: int32
+        apiKey:
+          type: string
+          description: your API user's secret key
+        iat:
+          type: number
+          format: timestamp
+          description: timestamp of when the request was sent
+        userData:
+          type: object
+          description: User data required to validate user
+          properties:
+            email:
+              type: string
+              format: email
+              description: email of the user you want to get the Idcentity for
+            session:
+              type: integer
+              description: user's session
+              format: int32
+        redemption:
+          type: object
+          description: Product information for redemption
+          properties:
+            Content ID: 
+              type: string
+              description: Content's ID on partner platform
+            Product Image:
+              type: string
+              format: uri
+              description: URI of product's image
+            Content Name:
+              type: string
+              description: name of the product being redeemed
+            Network Name:
+              type: string
+              description: name of the network associated with this project
+            Feed Provider:
+              type: string
+              description: name of the provider
+            Category Id:
+              type: string
+              description: name of the category of product
+            Content Type: 
+              type: string
+              description: name of the type of product
+            Transaction Status:
+              type: string
+              description: status of transaction, in case it applies
+            Provider User ID:
+              type: string
+              description: ID of the user on partner's platform
+            Provider Shop Url:
+              type: string
+              format: uri
+              description: URI of the partner's platform
+            Currency:
+              type: string
+              format: ISO 4217 Currency Code
+              description: Currency code the transdaction takes place in
+            SRP Price:
+              type: number
+              description: SRP Price of the product
+            Purchasing Price:
+              type: number
+              description: Price at which the product was purchased
+            Transaction Price:
+              type: number
+              description: Price at which the product is being sold to the user
+            Transaction Fee:
+              type: number
+              description: Any applicable fee applied to the transaction
+            Product Discount:
+              type: number
+              format: percent
+              description: Any discount applicable to the product but not passed on to the final user
+            Product Fee:
+              type: number
+              description: Any fees applicable to the product
+            Points Cost:
+              type: integer
+              format: int32
+              description: Cost of the product in points
+            VAT:
+              type: number
+              format: percent
+              description: Any taxes applicab;e to the transaction or product
+            Provider Margin:
+              type: number
+              format: percent
+              description: Margin given by provider
+            Provider Discount:
+              type: number
+              format: percent
+              description: Discount given by provider
+            Special Offer:
+              type: boolean
+              description: is this item a special offer (promotional item) or not
+            Discount:
+              type: number
+              format: percent
+              description: Discount applied to special offer
+            Offer SRP:
+              type: number
+              description: SRP price of the promotional offer
+            Offer ID:
+              type: string
+              description: ID of the promotional offer
+            Offer Name:
+              type: string
+              description: Name of the promotional offer
+            Provider Order Number:
+              type: string
+              description: Order number in the partner's system
+            Download URL:
+              type: string
+              format: uri
+              description: Url to reach the redeemed item, if applicable
+            Additional Info:
+              type: string
+              description: Any additional information related to the redeemed product
+      example:
+        shop: 6
+        user: 34
+        apiKey: t67gb8yvb6789g78hb678
+        iat: 1516239022
+        userData:
+          email: fake@email.com
+          session: 56785
+    ExternalRedeemResponse:
+      title: ExternalRedeemResponse
+      type: object
+      properties:
+        data:
+          type: object
+          description: Identity data
+          properties:
+            RTWUserId:
+              type: string
+              description: RTW internal user id
+            loginName:
+              type: string
+              description: User's login name
+            name:
+              type: string
+              description: User's first name
+            lastName:
+              type: string
+              description: User's surname
+            coinscount:
+              type: integer
+              description: Number of points in user's account
+              format: int32
+            geoId:
+              type: string
+              description: User's country geocode
+              format: geocode
+              minLength: 2
+              maxLength: 2
+            language:
+              type: string
+              description: User's preferred language
+              format: langcode
+              minLength: 2
+              maxLength: 2
+            email:
+              type: string
+              description: User's email
+              format: email
+            shop:
+              type: integer
+              description: Id of the shop your user belongs to
+              format: int32
+      example:
+        data:
+          RTWUserId: b69b6b8yohuilhuihuohyuioghui8
+          loginName: testuser
+          name: John
+          lastName: Doe
+          coinscount: 4567
+          geoId: GB
+          language: en
+          email: john.doe@rewardtheworld.com
+          shop: 6
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+- httpBearer: []
+tags:
+- name: Voucher
+  description: ''

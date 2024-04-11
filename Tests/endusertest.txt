@@ -1,0 +1,9 @@
+s\EndUserAction
+ [ ] User create
+ [ ] User delete
+ [ ] User update
+ [ ] User list
+ [ ] User get
+ [ ] User toggle
+ [ ] User s s o
+

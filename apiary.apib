@@ -1,0 +1,288 @@
+FORMAT: 1A
+HOST: https://api.thefirstclub.com/v2
+
+# TFC API
+
+TFC API is the base for all TFC International API communication.
+
+# Allowed HTTPs requests:
+<pre>
+POST    : To create resource
+PUT     : Update resource
+PATCH   : Update/Replace a part of a resource
+GET     : Get a resource or list of resources
+DELETE  : To delete resource
+</pre>
+
+# Description Of Usual Server Responses:
+- 200 `OK` - the request was successful (some API calls may return 201 instead).
+- 201 `Created` - the request was successful and a resource was created.
+- 204 `No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
+- 304 `Not Modified` - the GET request after completing is successful, but the object has not changed (i.e. no changes on the object).
+- 400 `Bad Request` - the request could not be understood or was missing required parameters.
+- 401 `Unauthorized` - authentication failed or user doesn't have permissions for requested operation.
+- 403 `Forbidden` - access denied.
+- 404 `Not Found` - resource was not found.
+- 405 `Method Not Allowed` - requested method is not supported for resource.
+- 409 `Conflict` - the request could not be completed due to a conflict with the current state of the resource. Most likely, the resource already exists.
+
+# Data Structures
+
+## User (object)
++ id: f434ecd9ea3311e6bdac080027c363c3 (string, required)
++ name: Sergio Paulino (string, required)
++ username: spaulino (string, required)
++ email: sp@thefirstclub.com (string, required)
++ salt: asdf12345 (string, required)
++ hash: $2y$10$qa9IR1CfyRtSxJP40N8kR.BbYw4lxvS.bZ6aZaApT7VFdEPPdKel6 (string, required)
++ role: admin (string, required)
+
+# Users Collection [/users]
+
+### Get Users [GET]
+
++ Response 200 (application/json)
+  + Attributes (array[User])
+
++ Response 401 (application/json)
+
+        {
+          "error": "ERR401",
+          "message": "Authentication failed."
+        }
+
++ Response 404 (application/json)
+
+        {
+          "error": "ERR404",
+          "message": "No results found."
+        }
+
++ Response 500 (application/json)
+
+        {
+          "error": "ERR500",
+          "message": "Unexpected Error."
+        }
+
+### Create User [POST]
+
++ Request (aplication/json)
+
+        {
+          "name": "User",
+          "username": "username",
+          "email": "email@email.com",
+          "salt": "user12345",
+          "hash": "$2y$10$v6ATjcMksk2QWcYRsqqKse2oN9zIaSUCM7ghBOJKNYcR1CglJsUEW",
+          "role": "api"
+        }
+
++ Response 201 (application/json)
+  + Attribute (User)
+
++ Response 304 (application/json)
+
++ Response 400 (application/json)
+
+        {
+          "error": "ERR400",
+          "message": "Incorrect syntax."
+        }
+
++ Response 401 (application/json)
+
+        {
+          "error": "ERR401",
+          "message": "Authentication failed."
+        }
+
++ Response 403 (application/json)
+
+        {
+          "error": "ERR403",
+          "message": "Permission denied."
+        }
+
++ Response 404 (application/json)
+
+        {
+          "error": "ERR404",
+          "message": "Item doesn't exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+          "error": "ERR500",
+          "message": "Unexpected Error."
+        }
+
+# User Object [/users/{id}]
+
+### Get User [GET]
+
++ Parameters
+  + id (String) ... User id. Example: f346ecd9ea3311e6bdac702880c109c3
+
++ Response 200 (application/json)
+  + Attribute (User)
+
++ Response 401 (application/json)
+
+        {
+          "error": "ERR401",
+          "message": "Authentication failed."
+        }
+
++ Response 404 (application/json)
+
+        {
+          "error": "ERR404",
+          "message": "User doesn't exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+          "error": "ERR500",
+          "message": "Unexpected Error."
+        }
+
+### Update User [PUT]
+
++ Parameters
+  + id (String) ... User id. Example: f346ecd9ea3311e6bdac702880c109c3
+
++ Request (application/json)
+  + Attribute (User)
+
++ Response 201 (application/json)
+  + Attribute (User)
+
++ Response 304 (application/json)
+
++ Response 400 (application/json)
+
+        {
+          "error": "ERR400",
+          "message": "Incorrect syntax."
+        }
+
++ Response 401 (application/json)
+
+        {
+          "error": "ERR401",
+          "message": "Authentication failed."
+        }
+
++ Response 403 (application/json)
+
+        {
+          "error": "ERR403",
+          "message": "Permission denied."
+        }
+
++ Response 404 (application/json)
+
+        {
+          "error": "ERR404",
+          "message": "User doesn't exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+          "error": "ERR500",
+          "message": "Unexpected Error."
+        }
+
+### Patch User [PATCH]
+
++ Parameters
+  + id (String) ... User id. Example: f346ecd9ea3311e6bdac702880c109c3
+
++ Request (application/json)
+
+        {
+          "email": "liame@email.com",
+          "salt": "user78945",
+          "role": "admin"
+        }
+
++ Response 201 (application/json)
+  + Attribute (User)
+
++ Response 304 (application/json)
+
++ Response 400 (application/json)
+
+        {
+          "error": "ERR400",
+          "message": "Incorrect syntax."
+        }
+
++ Response 401 (application/json)
+
+        {
+          "error": "ERR401",
+          "message": "Authentication failed."
+        }
+
++ Response 403 (application/json)
+
+        {
+          "error": "ERR403",
+          "message": "Permission denied."
+        }
+
++ Response 404 (application/json)
+
+        {
+          "error": "ERR404",
+          "message": "User doesn't exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+          "error": "ERR500",
+          "message": "Unexpected Error."
+        }
+
+### Delete User [DELETE]
+
++ Parameters
+  + id (String) ... User id. Example: f346ecd9ea3311e6bdac702880c109c3
+
++ Response 204 (application/json)
+
++ Response 304 (application/json)
+
++ Response 401 (application/json)
+
+        {
+          "error": "ERR401",
+          "message": "Authentication failed."
+        }
+
++ Response 403 (application/json)
+
+        {
+          "error": "ERR403",
+          "message": "Permission denied."
+        }
+
++ Response 404 (application/json)
+
+        {
+          "error": "ERR404",
+          "message": "User doesn't exist."
+        }
+
++ Response 500 (application/json)
+
+        {
+          "error": "ERR500",
+          "message": "Unexpected Error."
+        }
